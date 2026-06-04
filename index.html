@@ -4,173 +4,258 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Aplikasi Kuis Pancasila</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
+    /* --- RESET & VARIABEL --- */
+    :root {
+      --primary-red: #e74c3c;
+      --dark-bg: #1e1e2d;
+      --darker-bg: #151521;
+      --sidebar-text: #a1a5b7;
+      --sidebar-hover: #2b2b40;
+      --light-bg: #f5f8fa;
+      --card-bg: #ffffff;
+      --text-main: #3f4254;
+      --text-muted: #b5b5c3;
+      --success-color: #50cd89;
+      --success-bg: #e8fff3;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: 'Poppins', sans-serif; /* Menggunakan font premium */
     }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
-      color: #333;
+      background-color: var(--light-bg);
+      color: var(--text-main);
       display: flex;
       height: 100vh;
       width: 100%;
       overflow: hidden;
     }
 
-    /* --- SIDEBAR / SETBAR LEFT (FULL HEIGHT) --- */
+    /* --- SIDEBAR / SETBAR KIRI --- */
     .sidebar {
-      width: 300px;
-      background-color: #1a1a2e;
+      width: 280px;
+      background-color: var(--dark-bg);
       color: #fff;
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
       height: 100vh;
-      border-right: 1px solid #252542;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+      z-index: 10;
     }
+
     .sidebar-brand-box {
       padding: 25px 20px;
-      font-size: 1.4rem;
-      font-weight: bold;
-      background-color: #d32f2f;
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #c0392b, #e74c3c);
+      color: white;
       text-align: center;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
     }
+
+    .sidebar-brand-box i {
+      font-size: 1.5rem;
+    }
+
     .sidebar-menu-list {
       list-style: none;
-      padding: 15px 0;
+      padding: 20px 15px;
       flex-grow: 1;
       overflow-y: auto;
     }
+
+    /* Kustomisasi Scrollbar Sidebar */
+    .sidebar-menu-list::-webkit-scrollbar { width: 5px; }
+    .sidebar-menu-list::-webkit-scrollbar-thumb { background: #32324b; border-radius: 10px; }
+
     .menu-section-title {
-      padding: 10px 25px;
+      padding: 15px 15px 10px 15px;
       font-size: 0.75rem;
       text-transform: uppercase;
-      color: #6c757d;
-      letter-spacing: 1px;
-      font-weight: bold;
+      color: #6d6d80;
+      letter-spacing: 1.5px;
+      font-weight: 600;
     }
+
     .nav-item {
-      padding: 12px 25px;
+      padding: 12px 15px;
+      margin-bottom: 5px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      color: #b8b9ce;
-      transition: all 0.2s ease;
+      color: var(--sidebar-text);
+      transition: all 0.3s ease;
       font-size: 0.95rem;
+      border-radius: 8px; /* Bentuk membulat yang lebih modern */
     }
+
+    .nav-item i {
+      width: 25px;
+      font-size: 1.1rem;
+      margin-right: 10px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
     .nav-item:hover {
-      background-color: #24243e;
+      background-color: var(--sidebar-hover);
       color: #fff;
+      transform: translateX(5px); /* Efek bergeser sedikit saat disentuh */
     }
+
     .nav-item.active {
-      background-color: #2a2a4a;
+      background-color: var(--primary-red);
       color: #fff;
-      border-left: 4px solid #d32f2f;
-      font-weight: 600;
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
     }
 
     /* --- KOTAK HASIL DI DALAM SETBAR --- */
     .sidebar-result-box {
       margin: 15px;
-      padding: 15px;
-      background-color: #111122;
-      border-radius: 6px;
-      border: 1px dashed #333352;
+      padding: 20px;
+      background-color: var(--darker-bg);
+      border-radius: 12px;
+      border: 1px solid #2b2b40;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
+
+    .sidebar-result-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--success-color);
+    }
+
     .sidebar-result-title {
-      font-size: 0.8rem;
-      color: #85859e;
-      margin-bottom: 8px;
-      font-weight: bold;
+      font-size: 0.75rem;
+      color: var(--sidebar-text);
+      margin-bottom: 5px;
+      font-weight: 600;
       text-transform: uppercase;
+      letter-spacing: 1px;
     }
+
     .sidebar-score {
-      font-size: 1.4rem;
-      color: #4caf50;
-      font-weight: bold;
+      font-size: 1.8rem;
+      color: var(--success-color);
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(80, 205, 137, 0.2);
     }
 
     .sidebar-footer-text {
       padding: 15px 20px;
       font-size: 0.8rem;
-      color: #6c757d;
-      border-top: 1px solid #24243e;
+      color: #6d6d80;
+      border-top: 1px solid #2b2b40;
       text-align: center;
     }
 
-    /* --- CONTAINER KONTEN UTAMA RIGHT (FILL LAPTOP LINE) --- */
+    /* --- KONTEN UTAMA KANAN --- */
     .content-container {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
       height: 100%;
-      width: calc(100% - 300px);
-      overflow: hidden;
+      width: calc(100% - 280px);
+      background-color: var(--light-bg);
     }
+
     .top-navigation-bar {
-      background-color: #fff;
-      height: 70px;
+      background-color: var(--card-bg);
+      height: 75px;
       display: flex;
       align-items: center;
-      padding: 0 30px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-      border-bottom: 1px solid #eef2f5;
+      padding: 0 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      border-bottom: 1px solid #eff2f5;
+      z-index: 5;
     }
+
     .top-navigation-bar h2 {
-      font-size: 1.4rem;
-      color: #495057;
+      font-size: 1.3rem;
+      color: var(--dark-bg);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
+
     .view-panel-body {
-      padding: 30px;
+      padding: 40px;
       flex-grow: 1;
       overflow-y: auto;
       width: 100%;
     }
 
-    /* --- PANEL HALAMAN --- */
+    /* Animasi Halus saat Ganti Halaman */
+    @keyframes fadeInSlideUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .page-view-panel {
       display: none;
       width: 100%;
+      animation: fadeInSlideUp 0.4s ease-out forwards;
     }
+
     .page-view-panel.active {
       display: block;
     }
 
     /* --- KARTU DESAIN MINIMALIS --- */
     .content-card {
-      background: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      background: var(--card-bg);
+      padding: 35px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.03);
       margin-bottom: 25px;
-      border: 1px solid #eef2f5;
-      width: 100%;
-    }
-    .content-card h3 {
-      margin-bottom: 15px;
-      color: #1a1a2e;
-      font-size: 1.3rem;
-    }
-    .content-card p {
-      line-height: 1.7;
-      color: #626262;
-      margin-bottom: 15px;
+      border: 1px solid #eff2f5;
     }
 
-    /* --- WRAPPER IFRAME KUIS FULL-WIDTH --- */
+    .content-card h3 {
+      margin-bottom: 15px;
+      color: var(--dark-bg);
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .content-card p {
+      line-height: 1.8;
+      color: #5e6278;
+      font-size: 1rem;
+    }
+
+    /* --- WRAPPER IFRAME --- */
     .quiz-display-wrapper {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.03);
       overflow: hidden;
-      border: 1px solid #eef2f5;
+      border: 1px solid #eff2f5;
       width: 100%;
     }
+
     iframe {
       width: 100%;
       height: 750px;
@@ -181,64 +266,64 @@
     /* --- PANEL HASIL UTAMA --- */
     .main-result-display {
       text-align: center;
-      padding: 40px 20px;
-      background: #fff;
-      border-radius: 8px;
-      border: 1px solid #eef2f5;
+      padding: 50px 20px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid #eff2f5;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.03);
     }
+
     .score-badge-circle {
       display: inline-block;
-      padding: 20px 40px;
-      background: #e8f5e9;
-      color: #2e7d32;
-      border-radius: 50px;
-      font-size: 2.2rem;
-      font-weight: bold;
-      margin: 20px 0;
-      border: 2px dashed #a5d6a7;
+      padding: 30px 50px;
+      background: var(--success-bg);
+      color: var(--success-color);
+      border-radius: 15px;
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 25px 0;
+      border: 2px solid #b7ebcf;
+      box-shadow: 0 10px 20px rgba(80, 205, 137, 0.15);
     }
   </style>
 </head>
 <body>
 
-  <!-- 1. SETBAR / SIDEBAR KIRI -->
   <div class="sidebar">
     <div class="sidebar-brand-box">
-      Sistem Pancasila
+      <i class="fas fa-shield-alt"></i> Portal Pancasila
     </div>
     
     <ul class="sidebar-menu-list">
       <li class="nav-item active" onclick="gantiHalaman('beranda', this)">
-        <span>🏠 Beranda Utama</span>
+        <i class="fas fa-home"></i> <span>Beranda Utama</span>
       </li>
       
       <li class="nav-item" onclick="gantiHalaman('materi', this)">
-        <span>📖 Materi Kebangsaan</span>
+        <i class="fas fa-book-open"></i> <span>Materi Kebangsaan</span>
       </li>
       
-      <!-- DAFTAR KUIS PILIHAN LANGSUNG DI SETBAR -->
       <div class="menu-section-title">Pilihan Kuis Aktif</div>
       
       <li class="nav-item kuis-pilihan" onclick="bukaKuisPilihan('pancasila-1', this)">
-        <span>📄 Kuis Pancasila Dasar</span>
+        <i class="fas fa-file-alt"></i> <span>Kuis Pancasila Dasar</span>
       </li>
       <li class="nav-item kuis-pilihan" onclick="bukaKuisPilihan('pancasila-2', this)">
-        <span>📄 Kuis Pengamalan Sila</span>
+        <i class="fas fa-hands-helping"></i> <span>Kuis Pengamalan Sila</span>
       </li>
       <li class="nav-item kuis-pilihan" onclick="bukaKuisPilihan('pancasila-3', this)">
-        <span>📄 Kuis Sejarah Negara</span>
+        <i class="fas fa-landmark"></i> <span>Kuis Sejarah Negara</span>
       </li>
       
       <div class="menu-section-title">Evaluasi</div>
       <li class="nav-item" id="nav-hasil" onclick="gantiHalaman('hasil', this)">
-        <span>📊 Lembar Hasil Utama</span>
+        <i class="fas fa-chart-bar"></i> <span>Lembar Hasil Utama</span>
       </li>
     </ul>
 
-    <!-- LIVE SCORE MONITOR DI DALAM SETBAR -->
-    <div class="sidebar-result-box">
-      <div class="sidebar-result-title">Skor Kuis Terbaru:</div>
-      <div class="sidebar-score" id="setbarSkor">Belum Ada</div>
+    <div class="sidebar-result-box" id="boxSkorSidebar">
+      <div class="sidebar-result-title">Skor Terbaru</div>
+      <div class="sidebar-score" id="setbarSkor">- / -</div>
     </div>
 
     <div class="sidebar-footer-text">
@@ -246,70 +331,57 @@
     </div>
   </div>
 
-  <!-- 2. AREA KONTEN SEBELAH KANAN -->
   <div class="content-container">
     <div class="top-navigation-bar">
-      <h2 id="main-panel-title">Beranda Utama</h2>
+      <h2><i class="fas fa-layer-group" style="color: #e74c3c; margin-right: 5px;"></i> <span id="main-panel-title">Beranda Utama</span></h2>
     </div>
 
     <div class="view-panel-body">
       
-      <!-- Halaman: Beranda -->
       <div id="panel-beranda" class="page-view-panel active">
         <div class="content-card">
-          <h3>Selamat Datang di Portal Wawasan</h3>
-          <p>Silakan pilih salah satu daftar dari <strong>Pilihan Kuis Aktif</strong> yang tertera langsung pada setbar bagian kiri untuk memulai ujian pengerjaan secara langsung.</p>
+          <h3>👋 Selamat Datang di Portal Wawasan</h3>
+          <p>Silakan pilih salah satu daftar dari <strong>Pilihan Kuis Aktif</strong> yang tertera pada sidebar bagian kiri untuk memulai ujian pengerjaan secara langsung.</p>
         </div>
       </div>
 
-      <!-- Halaman: Materi -->
       <div id="panel-materi" class="page-view-panel">
         <div class="content-card">
-          <h3>Ringkasan Ideologi Negara</h3>
-          <p>Pancasila mengandung nilai-nilai luhur yang mengikat seluruh tumpah darah kebudayaan Indonesia dari sabang sampai merauke.</p>
+          <h3>📖 Ringkasan Ideologi Negara</h3>
+          <p>Pancasila mengandung nilai-nilai luhur yang mengikat seluruh tumpah darah kebudayaan Indonesia dari Sabang sampai Merauke. Pelajari dengan cermat sebelum memulai kuis evaluasi.</p>
         </div>
       </div>
 
-      <!-- Halaman: Tempat Konten Kuis -->
       <div id="panel-kuis" class="page-view-panel">
         <div class="quiz-display-wrapper">
-          <!-- Link Google Apps Script Anda dipasang di sini -->
           <iframe id="mainQuizIframe" src=""></iframe>
         </div>
       </div>
 
-      <!-- Halaman: Hasil Evaluasi Utama -->
       <div id="panel-hasil" class="page-view-panel">
         <div class="main-result-display">
-          <h3>Lembar Nilai Hasil Ujian</h3>
+          <h3>📊 Lembar Nilai Hasil Ujian</h3>
           <div class="score-badge-circle" id="mainDisplaySkor">0 / 0</div>
-          <p>Nilai di atas disinkronkan secara realtime dengan indikator skor pada setbar kiri.</p>
+          <p>Nilai di atas disinkronkan secara <em>realtime</em> dengan indikator skor pada sidebar kiri setiap kali Anda menyelesaikan ujian.</p>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- KODE LOGIKA NAVIGASI & MONITORING SKOR -->
   <script>
-    // Menyimpan URL Google Apps Script Anda ke variabel tunggal
     const SOURCE_URL_KUIS = "https://script.google.com/macros/s/AKfycbzu5yquWJuLW34b3nTOZbBHcpFB03nTap-ErxdbrgMijuwSfWAR7gbOvhk4haWkUJzH/exec";
 
-    // Fungsi navigasi menu biasa
     function gantiHalaman(panelId, menuElement) {
-      // Sembunyikan semua panel halaman kanan
       const semuaPanel = document.querySelectorAll('.page-view-panel');
       semuaPanel.forEach(panel => panel.classList.remove('active'));
 
-      // Matikan tanda aktif di seluruh item menu setbar
       const semuaMenu = document.querySelectorAll('.nav-item');
       semuaMenu.forEach(item => item.classList.remove('active'));
 
-      // Tampilkan panel yang dituju
       document.getElementById('panel-' + panelId).classList.add('active');
       menuElement.classList.add('active');
 
-      // Update teks judul di bagian atas kolom kanan
       const judulHalaman = {
         'beranda': 'Beranda Utama',
         'materi': 'Materi Kebangsaan',
@@ -320,7 +392,6 @@
       }
     }
 
-    // Fungsi khusus ketika Kuis Pilihan di dalam setbar diklik
     function bukaKuisPilihan(idKuis, menuElement) {
       const semuaMenu = document.querySelectorAll('.nav-item');
       semuaMenu.forEach(item => item.classList.remove('active'));
@@ -329,7 +400,6 @@
       
       const iframe = document.getElementById('mainQuizIframe');
       
-      // Mengubah isi kontainer kanan sesuai kuis yang dipilih di setbar
       if (idKuis === 'pancasila-1') {
         iframe.src = SOURCE_URL_KUIS;
         document.getElementById('main-panel-title').innerText = "Kuis Pancasila Dasar";
@@ -341,29 +411,31 @@
         document.getElementById('main-panel-title').innerText = "Kuis Sejarah Negara";
       }
 
-      // Tampilkan panel kuis di sisi kanan
       const semuaPanel = document.querySelectorAll('.page-view-panel');
       semuaPanel.forEach(panel => panel.classList.remove('active'));
       document.getElementById('panel-kuis').classList.add('active');
     }
 
-    // Listener otomatis: Menangkap kiriman data skor dari dalam Kuis Apps Script
     window.addEventListener('message', function(event) {
       if (event.data && event.data.type === 'QUIZ_SUBMITTED') {
         const nilaiSkor = event.data.skor;
         const totalSoal = event.data.total;
         
-        // 1. TAMPILKAN HASILNYA DI SETBAR SEBELAH KIRI SEPERTI PERMINTAAN ANDA
+        // Update di Sidebar Kiri
         document.getElementById('setbarSkor').innerText = nilaiSkor + " / " + totalSoal;
-        document.getElementById('setbarSkor').style.color = "#4caf50";
         
-        // 2. Update juga tampilan data pada halaman utama kolom kanan
+        // Update di Panel Hasil Utama
         document.getElementById('mainDisplaySkor').innerText = nilaiSkor + " / " + totalSoal;
         
-        // Beri highlight hijau instan di area skor setbar agar terlihat responsif
-        const boxSkor = document.querySelector('.sidebar-result-box');
-        boxSkor.style.borderColor = '#4caf50';
-        setTimeout(() => { boxSkor.style.borderColor = '#333352'; }, 2500);
+        // Efek kedip / highlight hijau di kotak skor sidebar
+        const boxSkor = document.getElementById('boxSkorSidebar');
+        boxSkor.style.boxShadow = "0 0 20px rgba(80, 205, 137, 0.6)";
+        boxSkor.style.borderColor = "#50cd89";
+        
+        setTimeout(() => { 
+          boxSkor.style.boxShadow = "none";
+          boxSkor.style.borderColor = "#2b2b40"; 
+        }, 2000);
       }
     });
   </script>
