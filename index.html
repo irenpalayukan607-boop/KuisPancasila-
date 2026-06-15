@@ -3,33 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal & Dashboard Kuis Pancasila</title>
+  <title>Portal & Dashboard Kuis Pancasila v2.0</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    /* --- VARIABEL & SISTEM DESAIN --- */
+    /* --- VARIABEL & SISTEM DESAIN EKSLUSIF --- */
     :root {
-      --primary-crimson: #cc1d24;
-      --primary-gold: #dfb15b;
-      --dark-sidebar: #111318;
-      --dark-sidebar-hover: #1c1f26;
+      --primary-crimson: #b91c1c;
+      --primary-gold: #e2b857;
+      --dark-sidebar: #0f172a;
+      --dark-sidebar-hover: #1e293b;
       --sidebar-text: #94a3b8;
       
-      --light-bg: #f8fafc;
+      --light-bg: #f1f5f9;
       --card-bg: #ffffff;
-      --text-main: #1e293b;
-      --text-muted: #64748b;
+      --text-main: #0f172a;
+      --text-muted: #475569;
       
       --success-color: #10b981;
-      --success-bg: #ecfdf5;
+      --success-bg: #d1fae5;
+      --danger-color: #ef4444;
+      --danger-bg: #fee2e2;
       
-      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -4px rgba(0,0,0,0.03);
+      --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --transition-smooth: all 0.3s ease;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      
+      --shadow-blur: 0 20px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.03);
     }
 
     * {
@@ -49,9 +53,9 @@
       overflow: hidden;
     }
 
-    /* --- SIDEBAR (KIRI) --- */
+    /* --- SIDEBAR --- */
     .sidebar {
-      width: 280px;
+      width: 290px;
       background-color: var(--dark-sidebar);
       color: #fff;
       display: flex;
@@ -64,10 +68,10 @@
     }
 
     .sidebar-brand-box {
-      padding: 30px 24px;
+      padding: 32px 24px;
       font-family: 'Merriweather', serif;
-      font-size: 1.2rem;
-      font-weight: 700;
+      font-size: 1.25rem;
+      font-weight: 900;
       color: #ffffff;
       display: flex;
       align-items: center;
@@ -77,7 +81,7 @@
 
     .sidebar-brand-box i {
       color: var(--primary-gold);
-      font-size: 1.4rem;
+      text-shadow: 0 0 12px rgba(226, 184, 87, 0.4);
     }
 
     .sidebar-menu-list {
@@ -91,38 +95,39 @@
     .sidebar-menu-list::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
 
     .menu-section-title {
-      padding: 20px 12px 8px 12px;
+      padding: 24px 12px 8px 12px;
       font-size: 0.7rem;
       text-transform: uppercase;
       color: #475569;
       letter-spacing: 1.5px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .nav-item {
-      padding: 12px 14px;
-      margin-bottom: 4px;
+      padding: 14px 16px;
+      margin-bottom: 6px;
       cursor: pointer;
       display: flex;
       align-items: center;
       color: var(--sidebar-text);
-      transition: var(--transition-smooth);
+      transition: var(--transition-bounce);
       font-size: 0.9rem;
       font-weight: 500;
-      border-radius: 8px;
+      border-radius: var(--radius-md);
     }
 
     .nav-item i {
       width: 24px;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       margin-right: 12px;
-      color: #64748b;
+      color: #475569;
       transition: var(--transition-smooth);
     }
 
     .nav-item:hover {
       background-color: var(--dark-sidebar-hover);
       color: #fff;
+      transform: translateX(4px);
     }
 
     .nav-item:hover i {
@@ -130,77 +135,74 @@
     }
 
     .nav-item.active {
-      background-color: var(--primary-crimson);
+      background: linear-gradient(135deg, var(--primary-crimson) 0%, #991b1b 100%);
       color: #ffffff;
       font-weight: 600;
-      box-shadow: 0 4px 12px rgba(204, 29, 36, 0.25);
+      box-shadow: 0 10px 15px -3px rgba(185, 28, 28, 0.3);
     }
 
     .nav-item.active i {
       color: #ffffff;
     }
 
-    /* --- SINKRONISASI SKOR SIDEBAR --- */
+    /* WIDGET SKOR SIDEBAR */
     .sidebar-result-box {
       margin: 16px;
       padding: 20px;
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      border-radius: 12px;
-      border: 1px solid #334155;
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: var(--radius-md);
+      border: 1px solid #1e293b;
       text-align: center;
-      transition: var(--transition-smooth);
+      transition: var(--transition-bounce);
     }
 
     .sidebar-result-title {
       font-size: 0.75rem;
       color: var(--sidebar-text);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .sidebar-score {
-      font-size: 1.6rem;
+      font-size: 1.75rem;
       color: var(--primary-gold);
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: 0.5px;
     }
 
     .sidebar-footer-text {
       padding: 16px;
       font-size: 0.75rem;
-      color: #475569;
+      color: #334155;
       text-align: center;
       border-top: 1px solid #1e293b;
     }
 
-    /* --- KONTEN UTAMA (KANAN) --- */
+    /* --- KONTEN UTAMA --- */
     .content-container {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
       height: 100%;
-      width: calc(100% - 280px);
+      width: calc(100% - 290px);
       background-color: var(--light-bg);
-      position: relative;
     }
 
-    /* HEADER / TOPBAR */
     .top-navigation-bar {
       background-color: var(--card-bg);
-      height: 80px;
+      height: 85px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 40px;
-      box-shadow: var(--shadow-sm);
       border-bottom: 1px solid #e2e8f0;
-      z-index: 50;
     }
 
     .top-navigation-bar h2 {
       font-family: 'Merriweather', serif;
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       color: var(--text-main);
       font-weight: 700;
       display: flex;
@@ -212,21 +214,19 @@
       display: none;
       background: none;
       border: none;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       color: var(--text-main);
       cursor: pointer;
     }
 
-    /* PANEL VIEW BODY */
     .view-panel-body {
       padding: 40px;
       flex-grow: 1;
       overflow-y: auto;
     }
 
-    /* ANIMASI TRANSISI HALAMAN */
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -237,117 +237,144 @@
 
     .page-view-panel.active {
       display: block;
-      animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* KARTU KONTEN ELEGAN */
+    /* KARTU DESAIN LUHUR */
     .content-card {
       background: var(--card-bg);
       padding: 40px;
-      border-radius: 16px;
-      box-shadow: var(--shadow-md);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-blur);
       margin-bottom: 24px;
-      border: 1px solid #f1f5f9;
+      border: 1px solid rgba(226, 232, 240, 0.8);
     }
 
     .content-card h3 {
       font-family: 'Merriweather', serif;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       color: var(--text-main);
-      font-size: 1.5rem;
+      font-size: 1.6rem;
     }
 
     .content-card p {
-      line-height: 1.75;
+      line-height: 1.8;
       color: var(--text-muted);
-      font-size: 0.975rem;
-      margin-bottom: 20px;
+      font-size: 1rem;
     }
 
-    /* IFRAME WRAPPER */
+    /* WRAPPER IFRAME KUIS */
     .quiz-display-wrapper {
       background: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: var(--shadow-lg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-blur);
       overflow: hidden;
       border: 1px solid #e2e8f0;
     }
 
     iframe {
       width: 100%;
-      height: 720px;
+      height: 740px;
       border: none;
       display: block;
     }
 
-    /* UTALITAS PANEL HASIL */
+    /* PANEL EVALUASI AKHIR */
     .main-result-display {
       text-align: center;
-      padding: 60px 20px;
+      padding: 50px 40px;
       background: var(--card-bg);
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       border: 1px solid #e2e8f0;
-      box-shadow: var(--shadow-md);
-      max-width: 600px;
+      box-shadow: var(--shadow-blur);
+      max-width: 650px;
       margin: 0 auto;
     }
 
     .score-badge-circle {
       display: inline-block;
-      padding: 24px 48px;
-      background: var(--success-bg);
-      color: var(--success-color);
-      border-radius: 12px;
-      font-size: 3.5rem;
+      padding: 28px 56px;
+      background: #f8fafc;
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      font-size: 3.8rem;
       font-weight: 800;
-      margin: 30px 0;
-      border: 1px solid #a7f3d0;
-      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1);
+      margin: 24px 0;
+      border: 2px dashed #cbd5e1;
+      transition: var(--transition-bounce);
     }
 
-    .btn-simulasi {
+    /* STATS BADGE */
+    .status-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      opacity: 0;
+      transition: var(--transition-smooth);
+    }
+
+    .status-badge.lulus {
+      background-color: var(--success-bg);
+      color: var(--success-color);
+      opacity: 1;
+    }
+
+    .status-badge.gagal {
+      background-color: var(--danger-bg);
+      color: var(--danger-color);
+      opacity: 1;
+    }
+
+    /* PROGRESS BAR */
+    .progress-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 10px;
+      margin: 20px 0 30px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary-gold), var(--success-color));
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-action {
       background-color: var(--text-main);
       color: white;
       border: none;
-      padding: 10px 20px;
-      font-size: 0.85rem;
-      border-radius: 6px;
+      padding: 12px 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 8px;
       cursor: pointer;
-      margin-top: 15px;
       transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    .btn-simulasi:hover {
+
+    .btn-action:hover {
       background-color: var(--primary-crimson);
+      transform: translateY(-2px);
     }
 
-    /* --- RESPONSIVITAS (MOBILE & TABLET) --- */
+    /* RESPONSIVE LAYOUT */
     @media (max-width: 992px) {
-      .menu-toggle {
-        display: block;
-      }
-
-      .sidebar {
-        position: absolute;
-        left: -280px;
-        top: 0;
-        bottom: 0;
-      }
-
-      .sidebar.open {
-        left: 0;
-      }
-
-      .content-container {
-        width: 100%;
-      }
-
-      .top-navigation-bar {
-        padding: 0 24px;
-      }
-
-      .view-panel-body {
-        padding: 24px;
-      }
+      .menu-toggle { display: block; }
+      .sidebar { position: absolute; left: -290px; top: 0; bottom: 0; }
+      .sidebar.open { left: 0; }
+      .content-container { width: 100%; }
+      .top-navigation-bar { padding: 0 24px; }
+      .view-panel-body { padding: 24px; }
     }
   </style>
 </head>
@@ -355,7 +382,7 @@
 
   <div class="sidebar" id="mainSidebar">
     <div class="sidebar-brand-box">
-      <i class="fa-solid fa-gadi-ambassador fa-shield-halved"></i>
+      <i class="fa-solid fa-shield-halved"></i>
       <span>Portal Garuda</span>
     </div>
     
@@ -387,7 +414,7 @@
     </ul>
 
     <div class="sidebar-result-box" id="boxSkorSidebar">
-      <div class="sidebar-result-title">Skor Terakhir</div>
+      <div class="sidebar-result-title">Skor Live</div>
       <div class="sidebar-score" id="setbarSkor">- / -</div>
     </div>
 
@@ -412,16 +439,16 @@
       <div id="panel-beranda" class="page-view-panel active">
         <div class="content-card">
           <h3>👋 Selamat Datang di Portal Wawasan Kebangsaan</h3>
-          <p>Portal ini didesain khusus untuk menguji serta meningkatkan pemahaman Anda mengenai nilai-nilai luhur Pancasila dan Sejarah Negara Kesatuan Republik Indonesia.</p>
-          <p>Silakan pilih salah satu modul uji dari menu <strong>Pilihan Kuis Aktif</strong> pada bilah sisi kiri untuk memulai pengerjaan evaluasi secara langsung.</p>
+          <p>Portal cerdas ini didesain terintegrasi untuk memetakan serta mengevaluasi pemahaman nilai-nilai kebangsaan secara komprehensif.</p>
+          <br>
+          <p>Pilih salah satu cakupan tes di menu <strong>Pilihan Kuis Aktif</strong> untuk memulai. Hasil pengerjaan Anda akan langsung tersinkronisasi di dashboard ini secara aktual.</p>
         </div>
       </div>
 
       <div id="panel-materi" class="page-view-panel">
         <div class="content-card">
-          <h3>📖 Ringkasan Ideologi Negara</h3>
-          <p>Pancasila sebagai kedudukan fundamental falsafah bangsa mengandung nilai luhur ketuhanan, kemanusiaan, persatuan, kerakyatan, dan keadilan sosial yang mengikat seluruh kebudayaan Nusantara.</p>
-          <p>Disarankan bagi seluruh peserta untuk membaca kembali butir-butir pengamalan sila secara saksama sebelum menguji kapabilitas pada menu kuis evaluasi.</p>
+          <h3>📖 Paradigma Ideologi Bangsa</h3>
+          <p>Pancasila berkedudukan sebagai falsafah kenegaraan tertinggi di Indonesia yang mengakar kuat pada kebudayaan adat dari Sabang hingga Merauke.</p>
         </div>
       </div>
 
@@ -433,25 +460,36 @@
 
       <div id="panel-hasil" class="page-view-panel">
         <div class="main-result-display">
-          <h3>📊 Lembar Nilai Hasil Ujian</h3>
+          <h3>📊 Lembar Evaluasi & Hasil Capaian</h3>
+          
           <div class="score-badge-circle" id="mainDisplaySkor">0 / 0</div>
-          <p>Nilai ini disinkronkan langsung dari data submisi ujian secara sistematis setiap kali Anda menyelesaikan tes.</p>
-          <button class="btn-simulasi" onclick="simulasiSkor()">Coba Simulasi Skor Baru (Demo)</button>
+          
+          <div>
+            <span id="badgeKelulusan" class="status-badge">Menunggu Ujian</span>
+          </div>
+
+          <div class="progress-container">
+            <div class="progress-bar" id="skorProgressBar"></div>
+          </div>
+
+          <p style="margin-bottom: 25px;">Sistem mendeteksi pencapaian nilai secara otomatis demi menjamin akurasi evaluasi berkala Anda.</p>
+          
+          <button class="btn-action" onclick="simulasiSkor()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Tes Simulasi Interaksi Skor
+          </button>
         </div>
       </div>
 
     </div>
   </div>
 
-  <script {timestamp="2026"}>
+  <script>
     const SOURCE_URL_KUIS = "https://script.google.com/macros/s/AKfycbzu5yquWJuLW34b3nTOZbBHcpFB03nTap-ErxdbrgMijuwSfWAR7gbOvhk4haWkUJzH/exec";
 
-    // Fungsi Buka Tutup Sidebar di Mobile
     function toggleSidebar() {
       document.getElementById('mainSidebar').classList.toggle('open');
     }
 
-    // Fungsi Ganti Panel Halaman Utama
     function gantiHalaman(panelId, menuElement) {
       const semuaPanel = document.querySelectorAll('.page-view-panel');
       semuaPanel.forEach(panel => panel.classList.remove('active'));
@@ -470,12 +508,9 @@
       if(judulHalaman[panelId]) {
         document.getElementById('main-panel-title').innerText = judulHalaman[panelId];
       }
-      
-      // Otomatis tutup sidebar setelah memilih menu di resolusi mobile
       document.getElementById('mainSidebar').classList.remove('open');
     }
 
-    // Fungsi Pemanggilan Kuis ke Dalam Iframe
     function bukaKuisPilihan(idKuis, menuElement) {
       const semuaMenu = document.querySelectorAll('.nav-item');
       semuaMenu.forEach(item => item.classList.remove('active'));
@@ -497,36 +532,67 @@
       const semuaPanel = document.querySelectorAll('.page-view-panel');
       semuaPanel.forEach(panel => panel.classList.remove('active'));
       document.getElementById('panel-kuis').classList.add('active');
-      
       document.getElementById('mainSidebar').classList.remove('open');
     }
 
-    // Fungsi Pembaruan Tampilan Skor
-    function updateSkorVisual(nilaiSkor, totalSoal) {
-      document.getElementById('setbarSkor').innerText = nilaiSkor + " / " + totalSoal;
-      document.getElementById('mainDisplaySkor').innerText = nilaiSkor + " / " + totalSoal;
+    // --- UTAMA: FUNGSI PROSES DAN SINKRONISASI NILAI AKTUAL ---
+    function prosesDanTampilkanSkor(skorDidapat, totalSoal) {
+      // 1. Tampilkan teks angka skor pada layar utama dan sidebar
+      document.getElementById('setbarSkor').innerText = skorDidapat + " / " + totalSoal;
+      document.getElementById('mainDisplaySkor').innerText = skorDidapat + " / " + totalSoal;
       
+      // 2. Hitung persentase nilai akhir
+      const persentase = totalSoal > 0 ? (skorDidapat / totalSoal) * 100 : 0;
+      
+      // 3. Update grafik progress bar
+      document.getElementById('skorProgressBar').style.width = persentase + "%";
+      
+      // 4. Hitung indikator batas kelulusan (Kriteria kelulusan minimal: 70% benar)
+      const badge = document.getElementById('badgeKelulusan');
+      const scoreContainer = document.getElementById('mainDisplaySkor');
+      
+      if (persentase >= 70) {
+        badge.innerText = "Status: Kompeten (Lulus)";
+        badge.className = "status-badge lulus";
+        scoreContainer.style.borderColor = "var(--success-color)";
+        scoreContainer.style.background = "var(--success-bg)";
+      } else {
+        badge.innerText = "Status: Evaluasi Mandiri (Gagal)";
+        badge.className = "status-badge gagal";
+        scoreContainer.style.borderColor = "var(--danger-color)";
+        scoreContainer.style.background = "var(--danger-bg)";
+      }
+      
+      // 5. Berikan efek denyut/kilat sukses pada widget sidebar kiri
       const boxSkor = document.getElementById('boxSkorSidebar');
-      boxSkor.style.boxShadow = "0 0 20px rgba(16, 185, 129, 0.4)";
-      boxSkor.style.borderColor = "var(--success-color)";
+      boxSkor.style.boxShadow = "0 0 25px rgba(226, 184, 87, 0.6)";
+      boxSkor.style.borderColor = "var(--primary-gold)";
       
       setTimeout(() => { 
         boxSkor.style.boxShadow = "none";
-        boxSkor.style.borderColor = "#334155"; 
-      }, 2500);
+        boxSkor.style.borderColor = "#1e293b"; 
+      }, 3000);
     }
 
-    // Listener Realtime API dari Google Script (PostMessage)
+    // LISTENER MENANGKAP PESAN DATA DARI DALAM KUIS GOOGLE APPS SCRIPT
     window.addEventListener('message', function(event) {
+      // Untuk keamanan, Anda dapat membuka komentar baris asal usul domain di bawah ini:
+      // if (!event.origin.includes("script.google.com")) return;
+
       if (event.data && event.data.type === 'QUIZ_SUBMITTED') {
-        updateSkorVisual(event.data.skor, event.data.total);
+        prosesDanTampilkanSkor(Number(event.data.skor), Number(event.data.total));
+        
+        // Opsional: Alihkan pandangan user ke Halaman Hasil agar langsung melihat grafik kelulusan
+        setTimeout(() => {
+          gantiHalaman('hasil', document.getElementById('nav-hasil'));
+        }, 1000);
       }
     });
 
-    // Fungsi Simulasi untuk Kebutuhan Demo Lokal
+    // FUNGSI SIMULASI (Dapat dicoba langsung untuk melihat fungsi sistem di atas berjalan)
     function simulasiSkor() {
-      const skorAcak = Math.floor(Math.random() * 6) + 5; // Skor antara 5-10
-      updateSkorVisual(skorAcak, 10);
+      const skorAcak = Math.floor(Math.random() * 6) + 5; // Menghasilkan skor acak antara 5 sampai 10
+      prosesDanTampilkanSkor(skorAcak, 10);
     }
   </script>
 </body>
