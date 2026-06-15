@@ -145,31 +145,39 @@
       color: #ffffff;
     }
 
-    /* WIDGET SKOR SIDEBAR */
+    /* WIDGET SKOR SIDEBAR (DIUBAH MENJADI DI TENGAH PRESISI & ANTI-TERPOTONG) */
     .sidebar-result-box {
-      margin: 16px;
-      padding: 20px;
-      background: rgba(30, 41, 59, 0.5);
+      margin: 20px 16px;
+      padding: 22px 16px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
       border-radius: var(--radius-md);
       border: 1px solid #1e293b;
       text-align: center;
       transition: var(--transition-bounce);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05);
     }
 
     .sidebar-result-title {
       font-size: 0.75rem;
       color: var(--sidebar-text);
-      margin-bottom: 8px;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.75px;
+      line-height: 1.2;
     }
 
     .sidebar-score {
-      font-size: 1.75rem;
+      font-size: 1.8rem;
       color: var(--primary-gold);
       font-weight: 800;
       letter-spacing: 0.5px;
+      line-height: 1.2;
+      text-shadow: 0 0 15px rgba(226, 184, 87, 0.3);
     }
 
     .sidebar-footer-text {
@@ -535,19 +543,13 @@
       document.getElementById('mainSidebar').classList.remove('open');
     }
 
-    // --- UTAMA: FUNGSI PROSES DAN SINKRONISASI NILAI AKTUAL ---
     function prosesDanTampilkanSkor(skorDidapat, totalSoal) {
-      // 1. Tampilkan teks angka skor pada layar utama dan sidebar
       document.getElementById('setbarSkor').innerText = skorDidapat + " / " + totalSoal;
       document.getElementById('mainDisplaySkor').innerText = skorDidapat + " / " + totalSoal;
       
-      // 2. Hitung persentase nilai akhir
       const persentase = totalSoal > 0 ? (skorDidapat / totalSoal) * 100 : 0;
-      
-      // 3. Update grafik progress bar
       document.getElementById('skorProgressBar').style.width = persentase + "%";
       
-      // 4. Hitung indikator batas kelulusan (Kriteria kelulusan minimal: 70% benar)
       const badge = document.getElementById('badgeKelulusan');
       const scoreContainer = document.getElementById('mainDisplaySkor');
       
@@ -563,7 +565,6 @@
         scoreContainer.style.background = "var(--danger-bg)";
       }
       
-      // 5. Berikan efek denyut/kilat sukses pada widget sidebar kiri
       const boxSkor = document.getElementById('boxSkorSidebar');
       boxSkor.style.boxShadow = "0 0 25px rgba(226, 184, 87, 0.6)";
       boxSkor.style.borderColor = "var(--primary-gold)";
@@ -574,24 +575,17 @@
       }, 3000);
     }
 
-    // LISTENER MENANGKAP PESAN DATA DARI DALAM KUIS GOOGLE APPS SCRIPT
     window.addEventListener('message', function(event) {
-      // Untuk keamanan, Anda dapat membuka komentar baris asal usul domain di bawah ini:
-      // if (!event.origin.includes("script.google.com")) return;
-
       if (event.data && event.data.type === 'QUIZ_SUBMITTED') {
         prosesDanTampilkanSkor(Number(event.data.skor), Number(event.data.total));
-        
-        // Opsional: Alihkan pandangan user ke Halaman Hasil agar langsung melihat grafik kelulusan
         setTimeout(() => {
           gantiHalaman('hasil', document.getElementById('nav-hasil'));
         }, 1000);
       }
     });
 
-    // FUNGSI SIMULASI (Dapat dicoba langsung untuk melihat fungsi sistem di atas berjalan)
     function simulasiSkor() {
-      const skorAcak = Math.floor(Math.random() * 6) + 5; // Menghasilkan skor acak antara 5 sampai 10
+      const skorAcak = Math.floor(Math.random() * 6) + 5; 
       prosesDanTampilkanSkor(skorAcak, 10);
     }
   </script>
